@@ -3,7 +3,6 @@
 
 treesys::treesys() {
 	this->route = NULL;
-	this->nodesize = 0;
 }
 
 treesys::~treesys() {
@@ -36,7 +35,6 @@ void treesys::inputdata(tree* tmp, int i) {
 		tmp->leftdata = NULL;
 		tmp->rightdata = NULL;
 	}
-	this->nodesize++;
 }
 
 void treesys::deletedata(int j) {
@@ -61,7 +59,6 @@ void treesys::deletedata(int j) {
 				tmp[0]->rightdata = NULL;
 		}
 		delete tmp[1];
-		this->nodesize--;
 		return;
 	}
 
@@ -92,7 +89,6 @@ void treesys::deletedata(int j) {
 	else
 		tmp[2]->rightdata = NULL;
 	delete tmp[1];
-	this->nodesize--;
 }
 
 bool treesys::search_exist(int j) {
@@ -116,7 +112,6 @@ void treesys::preorder(tree* tmp) {
 
 void treesys::stack_preorder(tree* tmp) {
 	stack<tree*> store;
-	int limit = this->getsize();
 	
 	if (tmp != NULL) {
 		while(1) {
