@@ -19,6 +19,7 @@ public:
 	void deletedata(int j); //트리에서 데이터 삭제
 	bool search_exist(int j); //데이터 존재여부 검색
 	void preorder(tree* tmp); //전위순회
+	void stack_preorder(tree* tmp); //사용자 스택 전위순회
 	void order(tree* tmp); //중위순회
 	void aftorder(tree* tmp); //후위순회
 	void delete_aft(tree* tmp); //소멸자용 후위순회
@@ -27,8 +28,12 @@ public:
 	tree* replacenode_left(tree** p, tree* tmp); //삭제 된 노드위치를 대체할 왼쪽 노드 반환
 	tree* replacenode_right(tree** p, tree* tmp); //삭제 된 노드위치를 대체할 오른쪽 노드 반환
 	tree* getvalue(); //main용 루트노드 반환
+	int getsize() {
+		return this->nodesize;
+	} //tree의 노드 개수 반환
 private:
 	tree* route; //루트노드 가리킴
+	int nodesize; //트리의 노드의 개수
 };
 
 #endif

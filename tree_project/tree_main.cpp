@@ -34,5 +34,7 @@ int main() {
 	s.deletedata(7);
 	s.deletedata(10);
 	s.preorder(s.getvalue());
+	cout << endl;
+	s.stack_preorder(s.getvalue());
 	return 0;
 }

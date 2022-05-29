@@ -1,7 +1,9 @@
 #include "tree_header.h"
+#include <stack>
 
 treesys::treesys() {
 	this->route = NULL;
+	this->nodesize = 0;
 }
 
 treesys::~treesys() {
@@ -34,6 +36,7 @@ void treesys::inputdata(tree* tmp, int i) {
 		tmp->leftdata = NULL;
 		tmp->rightdata = NULL;
 	}
+	this->nodesize++;
 }
 
 void treesys::deletedata(int j) {
@@ -58,6 +61,7 @@ void treesys::deletedata(int j) {
 				tmp[0]->rightdata = NULL;
 		}
 		delete tmp[1];
+		this->nodesize--;
 		return;
 	}
 
@@ -88,6 +92,7 @@ void treesys::deletedata(int j) {
 	else
 		tmp[2]->rightdata = NULL;
 	delete tmp[1];
+	this->nodesize--;
 }
 
 bool treesys::search_exist(int j) {
@@ -99,15 +104,43 @@ bool treesys::search_exist(int j) {
 }
 
 void treesys::preorder(tree* tmp) {
-	cout << tmp->data << " ";
-
+	if (tmp != NULL)
+		cout << tmp->data << " ";
+	else
+		return;
 	if (tmp->leftdata != NULL)
 		preorder(tmp->leftdata);
 	if (tmp->rightdata != NULL)
 		preorder(tmp->rightdata);
 }
 
+void treesys::stack_preorder(tree* tmp) {
+	stack<tree*> store;
+	int limit = this->getsize();
+	
+	if (tmp != NULL) {
+		while(1) {
+			cout << tmp->data << " ";
+			
+			if (tmp->rightdata != NULL) 
+				store.push(tmp->rightdata);
+			if(tmp->leftdata != NULL)
+				tmp = tmp->leftdata;
+			else {
+				if (store.size() > 0) {
+					tmp = store.top();
+					store.pop();
+				}
+				else
+					break;
+			}
+		}
+	}
+}
+
 void treesys::order(tree* tmp) {
+	if (tmp == NULL)
+		return;
 	if (tmp->leftdata != NULL)
 		order(tmp->leftdata);
 	cout << tmp->data << " ";
@@ -117,6 +150,8 @@ void treesys::order(tree* tmp) {
 }
 
 void treesys::aftorder(tree* tmp) {
+	if (tmp == NULL)
+		return;
 	if (tmp->leftdata != NULL)
 		aftorder(tmp->leftdata);
 	if (tmp->rightdata != NULL)
