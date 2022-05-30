@@ -3,6 +3,7 @@
 
 treesys::treesys() {
 	this->route = NULL;
+	this->size = 0;
 }
 
 treesys::~treesys() {
@@ -35,6 +36,7 @@ void treesys::inputdata(tree* tmp, int i) {
 		tmp->leftdata = NULL;
 		tmp->rightdata = NULL;
 	}
+	this->size++;
 }
 
 void treesys::deletedata(int j) {
@@ -59,6 +61,7 @@ void treesys::deletedata(int j) {
 				tmp[0]->rightdata = NULL;
 		}
 		delete tmp[1];
+		this->size--;
 		return;
 	}
 
@@ -89,6 +92,7 @@ void treesys::deletedata(int j) {
 	else
 		tmp[2]->rightdata = NULL;
 	delete tmp[1];
+	this->size--;
 }
 
 bool treesys::search_exist(int j) {
@@ -144,6 +148,33 @@ void treesys::order(tree* tmp) {
 		order(tmp->rightdata);
 }
 
+void treesys::stack_order(tree* tmp) {
+	stack<tree*> store;
+
+	if (tmp != NULL) {
+		while (1) {
+			if (tmp->leftdata != NULL) {
+				if (store.size() == 0 || store.top() != tmp) {
+					store.push(tmp);
+					tmp = tmp->leftdata;
+					continue;
+				}
+				else
+					store.pop();
+			}
+			cout << tmp->data << " ";
+
+			if (tmp->rightdata != NULL)
+				tmp = tmp->rightdata;
+			else {
+				if (store.size() == 0)
+					break;
+				tmp = store.top();
+			}
+		}
+	}
+}
+
 void treesys::aftorder(tree* tmp) {
 	if (tmp == NULL)
 		return;
@@ -152,6 +183,56 @@ void treesys::aftorder(tree* tmp) {
 	if (tmp->rightdata != NULL)
 		aftorder(tmp->rightdata);
 	cout << tmp->data << " ";
+}
+
+void treesys::stack_aftorder(tree* tmp) {
+	stack<tree*> store;
+	int* temp = new int[this->size]{ 0, };
+	int idx = 0;
+
+	if (tmp != NULL) {
+		while (1) {
+			if (tmp->leftdata != NULL) {
+				if (temp[idx] <= 0) {
+					store.push(tmp);
+					temp[idx] = 1;
+					tmp = tmp->leftdata;
+					idx++;
+					continue;
+				}
+			}
+			if (tmp->rightdata != NULL) {
+				if (temp[idx] <= 1) {
+					store.push(tmp);
+					temp[idx] = 2;
+					tmp = tmp->rightdata;
+					idx++;
+					continue;
+				}
+				else{
+					cout << tmp->data << " ";
+
+					if (store.size() == 0)
+						break;
+					tmp = store.top();
+					store.pop();
+					temp[idx] = 0;
+					idx--;
+				}
+			}
+			else {
+				cout << tmp->data << " ";
+
+				if (store.size() == 0)
+					break;
+				tmp = store.top();
+				store.pop();
+				temp[idx] = 0;
+				idx--;
+			}
+		}
+	}
+	delete[] temp;
 }
 
 void treesys::delete_aft(tree* tmp) {

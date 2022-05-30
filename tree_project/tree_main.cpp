@@ -36,5 +36,9 @@ int main() {
 	s.preorder(s.getvalue());
 	cout << endl;
 	s.stack_preorder(s.getvalue());
+	cout << endl;
+	s.stack_order(s.getvalue());
+	cout << endl;
+	s.stack_aftorder(s.getvalue());
 	return 0;
 }
